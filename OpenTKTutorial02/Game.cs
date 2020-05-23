@@ -19,8 +19,8 @@ namespace OpenTKTutorial2
         int attribute_vpos;
         int uniform_mview;
 
-        //建立着色器和程序之后给一些东西来绘制，使用顶点缓冲区对象(VBO)
-        int vbo_position;
+        //建立着色器和程序之后给一些东西来绘制，使用顶点缓冲区对象(VBO)  Vertex Buffer Object
+        int vbo_position;  
         int vbo_color;
         int vbo_mview;
 
@@ -37,11 +37,13 @@ namespace OpenTKTutorial2
 
             InitProgram();
 
-            vertdata = new Vector3[] { new Vector3(-0.8f, -0.8f, 0f),
+            vertdata = new Vector3[] {
+                new Vector3(-0.8f, -0.8f, 0f),
                 new Vector3(0.8f,-0.8f,0f),
                 new Vector3(0f,0.8f,0f)};
 
-            coldata = new Vector3[] { new Vector3(1f, 0f, 0f),
+            coldata = new Vector3[] {
+                new Vector3(1f, 0f, 0f),
                 new Vector3(0f,0f,1f),
                 new Vector3(0f,1f,0f)};
 
@@ -66,7 +68,7 @@ namespace OpenTKTutorial2
             GL.EnableVertexAttribArray(attribute_vpos);
             GL.EnableVertexAttribArray(attribute_vcol);
 
-            //告诉它如何绘制它们
+            //告诉它图元的类型
             GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
 
             //清理工作
@@ -111,8 +113,9 @@ namespace OpenTKTutorial2
             //发送模型矩阵
             GL.UniformMatrix4(uniform_mview, false, ref mviewdata[0]);
 
-            //清除缓冲区绑定,并将其设置为我们的着色器一起使用该程序
+            //使用该程序
             GL.UseProgram(pgmID);
+            //清除缓冲区绑定
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 
         }
