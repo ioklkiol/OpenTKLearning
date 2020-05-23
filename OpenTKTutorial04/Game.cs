@@ -11,25 +11,18 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 
-//VBO，VAO，EBO
-namespace OpenTKTutorial03
+//Shader
+namespace OpenTKTutorial04
 {
     class Game:GameWindow
     {
-        private string _VertexShader = new StreamReader("Shader/vs.glsl").ReadToEnd();
-        private string _FragmentShader = new StreamReader("Shader/fs.glsl").ReadToEnd();
-
-        private int _PID;
-        private int _VsID;
-        private int _FsID;
+        private Shader _Shader;
 
         private int _VAO;
         private int _VBO;
-        private int _EBO;
 
         private Vector3[] _VertData;
-        private int[] _IndiceData;
-        public Game() : base(600, 600, GraphicsMode.Default, "VBO,VAO,EBO Test",GameWindowFlags.Default, DisplayDevice.Default, 4, 0,
+        public Game() : base(600, 600, GraphicsMode.Default, "Shader Test",GameWindowFlags.Default, DisplayDevice.Default, 4, 0,
             GraphicsContextFlags.ForwardCompatible)
         { }
 
@@ -38,39 +31,37 @@ namespace OpenTKTutorial03
         {
             base.OnLoad(e);
 
-            _PID = GL.CreateProgram();
-
-            _VsID = GL.CreateShader(ShaderType.VertexShader);
-            GL.ShaderSource(_VsID, _VertexShader);
-            GL.CompileShader(_VsID);
-
-            _FsID = GL.CreateShader(ShaderType.FragmentShader);
-            GL.ShaderSource(_FsID, _FragmentShader);
-            GL.CompileShader(_FsID);
-
-            GL.AttachShader(_PID, _VsID);
-            GL.AttachShader(_PID, _FsID);
-
-            GL.LinkProgram(_PID);
-
-            GL.DeleteShader(_VsID);
-            GL.DeleteShader(_FsID);
-  
+            _Shader = new Shader("Shader/vs.glsl", "Shader/fs.glsl");
 
             //创建顶点数据
             _VertData = new[]
             {
-                new Vector3(-0.5f,-0.5f,0f),
+                //位置
                 new Vector3(0.5f,-0.5f,0f),
-                new Vector3(0.5f,0.5f,0f),
-                new Vector3(-0.5f,0.5f,0f)
+                new Vector3(0.0f,0.5f,0.0f),
+                new Vector3(-0.5f,-0.5f,0.0f),
+
+                //颜色
+                new Vector3(1.0f,0.0f,0.0f),
+                new Vector3(0.0f,1.0f,0.0f),
+                new Vector3(0.0f,0.0f,1.0f)
             };
 
-            _IndiceData = new[]
+            /*两种方式都可以
+            _VertData = new[]
             {
-                0,1,3,
-                1,2,3
+                //位置，颜色 混合
+                new Vector3(-0.5f,-0.5f,0f),
+                new Vector3(1.0f,0.0f,0.0f),
+
+                new Vector3(0.0f,0.5f,0.0f),
+                new Vector3(0.0f,1.0f,0.0f),
+
+                new Vector3(0.5f,-0.5f,0.0f),
+                new Vector3(0.0f,0.0f,1.0f)           
             };
+
+            */
 
             _VAO = GL.GenVertexArray();
             GL.BindVertexArray(_VAO);//绑定VAO，接下来与VBO相关的操作都与VAO有关
@@ -81,25 +72,24 @@ namespace OpenTKTutorial03
             GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(_VertData.Length
                 * Vector3.SizeInBytes), _VertData, BufferUsageHint.StaticDraw);
             //告诉OpenGL如何解析数据，第一个参数对应vs.glsl中的(location = 0)
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 0, 0);
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+            GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 9*sizeof(float));
 
-            _EBO = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, _EBO);
-            GL.BufferData<int>(BufferTarget.ElementArrayBuffer, (_IndiceData.Length
-                * sizeof(int)), _IndiceData, BufferUsageHint.StaticDraw);
+            //第二种方式
+            //GL.VertexAttribPointer(0,3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
+            //GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
 
             //启用属性(location = 0)
             GL.EnableVertexAttribArray(0);
+            GL.EnableVertexAttribArray(1);
             //解绑VBO
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             //解绑VAO
             GL.BindVertexArray(0);
-            //解绑EBO
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
 
             GL.ClearColor(Color.CornflowerBlue);
 
-            GL.PolygonMode(MaterialFace.FrontAndBack,PolygonMode.Line);
+            //GL.PolygonMode(MaterialFace.FrontAndBack,PolygonMode.Line);
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
@@ -109,20 +99,23 @@ namespace OpenTKTutorial03
             GL.Enable(EnableCap.DepthTest);
 
             GL.BindVertexArray(_VAO);
-            GL.UseProgram(_PID);
 
-            //GL.DrawArrays(PrimitiveType.TriangleFan, 0, 4);
-            GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
+            //指定Shader程序
+            _Shader.Use();
+
+            GL.DrawArrays(PrimitiveType.Triangles, 0, 3);          
+            //GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
 
             GL.Flush();
-
             SwapBuffers();
+           
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
             ProcessInput();
+         
         }
 
         private void ProcessInput()
