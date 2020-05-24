@@ -15,6 +15,11 @@ namespace OpenTKTutorial05
         public Form1()
         {
             InitializeComponent();
+            using (Game game = new Game())
+            {
+                game.Run(60);
+            }
+            Environment.Exit(0);
         }
     }
 }
