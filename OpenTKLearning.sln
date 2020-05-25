@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTKTutorial04", "OpenTKT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTKTutorial05", "OpenTKTutorial05\OpenTKTutorial05.csproj", "{3F58F3A1-DCC5-4BB9-A2D3-93F1407A12B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTKTutorial06", "OpenTKTutorial06\OpenTKTutorial06.csproj", "{C8BC7CF6-F6F1-45DC-9E25-AEA775BEEE9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,18 @@ Global
 		{3F58F3A1-DCC5-4BB9-A2D3-93F1407A12B5}.Release|x64.Build.0 = Release|Any CPU
 		{3F58F3A1-DCC5-4BB9-A2D3-93F1407A12B5}.Release|x86.ActiveCfg = Release|Any CPU
 		{3F58F3A1-DCC5-4BB9-A2D3-93F1407A12B5}.Release|x86.Build.0 = Release|Any CPU
+		{C8BC7CF6-F6F1-45DC-9E25-AEA775BEEE9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8BC7CF6-F6F1-45DC-9E25-AEA775BEEE9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8BC7CF6-F6F1-45DC-9E25-AEA775BEEE9B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C8BC7CF6-F6F1-45DC-9E25-AEA775BEEE9B}.Debug|x64.Build.0 = Debug|Any CPU
+		{C8BC7CF6-F6F1-45DC-9E25-AEA775BEEE9B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C8BC7CF6-F6F1-45DC-9E25-AEA775BEEE9B}.Debug|x86.Build.0 = Debug|Any CPU
+		{C8BC7CF6-F6F1-45DC-9E25-AEA775BEEE9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8BC7CF6-F6F1-45DC-9E25-AEA775BEEE9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8BC7CF6-F6F1-45DC-9E25-AEA775BEEE9B}.Release|x64.ActiveCfg = Release|Any CPU
+		{C8BC7CF6-F6F1-45DC-9E25-AEA775BEEE9B}.Release|x64.Build.0 = Release|Any CPU
+		{C8BC7CF6-F6F1-45DC-9E25-AEA775BEEE9B}.Release|x86.ActiveCfg = Release|Any CPU
+		{C8BC7CF6-F6F1-45DC-9E25-AEA775BEEE9B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
